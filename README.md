@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Manifest V3](https://img.shields.io/badge/Chrome-Manifest%20V3-green.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+[![Latest Release](https://img.shields.io/github/v/release/takoyune/Chrome-Extensions?color=orange)](https://github.com/takoyune/Chrome-Extensions/releases/latest)
 [![Package Extensions](https://github.com/takoyune/Chrome-Extensions/actions/workflows/package.yml/badge.svg)](https://github.com/takoyune/Chrome-Extensions/actions)
 [![Status](https://img.shields.io/badge/Status-Active%20%26%20Growing-brightgreen.svg)](#)
 
@@ -11,13 +12,11 @@ A growing monorepo collection of custom Chrome Extensions (Manifest V3) and comp
 
 ---
 
-## ⚡ Automated Builds & Downloads
+## ⚡ Download Pre-packaged Extensions (Releases)
 
-Every time code is pushed to this repository, **GitHub Actions** automatically:
-1. **Validates & Lints** all `manifest.json`, JavaScript, and Python scripts.
-2. **Packages each Extension into a ready-to-use `.zip` file**.
+Download ready-to-use `.zip` packages directly from the official **GitHub Releases**:
 
-📥 You can download the latest pre-packaged extension `.zip` files from the [GitHub Actions Artifacts](https://github.com/takoyune/Chrome-Extensions/actions).
+📦 **[Download v1.0.0 Release Packages](https://github.com/takoyune/Chrome-Extensions/releases/tag/v1.0.0)**
 
 ---
 
@@ -36,12 +35,13 @@ Every time code is pushed to this repository, **GitHub Actions** automatically:
 
 All extensions in this repository are built for **Chrome Manifest V3**.
 
-### Option A: From Pre-packaged Zip (Recommended)
-1. Download the latest `chrome-extensions-packages.zip` from [GitHub Actions Releases/Artifacts](https://github.com/takoyune/Chrome-Extensions/actions).
-2. Extract the `.zip` file for the extension you want to use.
-3. Open Chrome and go to `chrome://extensions/`.
-4. Enable **Developer mode** in the top right corner.
-5. Click **Load unpacked** and select the unzipped folder.
+### Option A: From GitHub Releases (Recommended)
+1. Go to the [Latest Release Page](https://github.com/takoyune/Chrome-Extensions/releases/latest).
+2. Download the `.zip` file for the extension you want (e.g. `Glitch-Ad-Skipper.zip`, `PixivFanbox-Downloader.zip`, etc.).
+3. Extract the `.zip` file.
+4. Open Chrome and go to `chrome://extensions/`.
+5. Enable **Developer mode** in the top right corner.
+6. Click **Load unpacked** and select the unzipped folder.
 
 ### Option B: From Source Code
 1. Clone this repository:
