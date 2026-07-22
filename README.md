@@ -2,8 +2,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Manifest V3](https://img.shields.io/badge/Chrome-Manifest%20V3-green.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+[![Status](https://img.shields.io/badge/Status-Active%20%26%20Growing-brightgreen.svg)](#)
 
-A collection of custom Chrome Extensions (Manifest V3) and companion desktop utilities designed to enhance YouTube playback, media downloading, web translation, and video streaming.
+A growing monorepo collection of custom Chrome Extensions (Manifest V3) and companion desktop utilities designed for media automation, ad skipping, translation, productivity, and video streaming.
+
+> 📌 **Note:** New extensions and small utility tools will be continuously added to this repository as they are developed.
 
 ---
 
@@ -29,7 +32,7 @@ All extensions in this repository are built for **Chrome Manifest V3**.
 2. Open Google Chrome and navigate to `chrome://extensions/`.
 3. Enable **Developer mode** using the toggle switch in the top-right corner.
 4. Click **Load unpacked**.
-5. Select the target project folder (or `extension/` subfolder for VLC Extensions).
+5. Select any project folder (or `extension/` subfolder when applicable).
 
 ---
 
@@ -50,6 +53,16 @@ All extensions in this repository are built for **Chrome Manifest V3**.
 ### 🎬 [VLC Extensions](./VLC%20Extensions/)
 - Seamlessly hand off YouTube streams from Chrome to local VLC Media Player.
 - Preserves playback timestamp and uses `yt-dlp` for stream processing.
+
+---
+
+## ➕ Adding New Extensions
+
+Whenever a new extension is created in this folder:
+1. Create a new directory named after the extension.
+2. Include a `manifest.json` (Manifest V3) and relevant content/background scripts.
+3. Add a project-level `README.md` inside the project folder explaining its feature set.
+4. Update the main table in the root `README.md`.
 
 ---
 
