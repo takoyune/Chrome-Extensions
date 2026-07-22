@@ -19,18 +19,30 @@ function _delay(min, max) {
 
 // ── Runtime state ─────────────────────────────────────────────────────────
 
+let isEnabled = true;
 let currentSkipMode = 'auto';
 let liveStreamAdCount = 0;
 let lastUrl = location.href;
 const BTN_DATA_ATTR = 'data-gs-' + _rnd(6); // unique per page load, invisible to static scanners
 
 chrome.storage.onChanged.addListener((changes, ns) => {
-    if (ns === 'local' && changes.skipMode) {
-        currentSkipMode = changes.skipMode.newValue;
+    if (ns === 'local') {
+        if (changes.skipMode) {
+            currentSkipMode = changes.skipMode.newValue;
+        }
+        if (changes.enabled !== undefined) {
+            isEnabled = changes.enabled.newValue;
+            if (!isEnabled) {
+                removeStealthButton();
+            } else {
+                processAdState();
+            }
+        }
     }
 });
 
-chrome.storage.local.get(['skipMode'], (r) => {
+chrome.storage.local.get(['enabled', 'skipMode'], (r) => {
+    if (r.enabled !== undefined) isEnabled = r.enabled;
     if (r.skipMode) currentSkipMode = r.skipMode;
 });
 
@@ -101,6 +113,8 @@ function restoreMainStreamAudio() {
 // ── Skip logic ────────────────────────────────────────────────────────────
 
 function triggerV1Skip() {
+    if (!isEnabled) return;
+
     // Dismiss overlay banner ads if present
     const overlayClose = document.querySelector('.ytp-ad-overlay-close-button');
     if (overlayClose) try { overlayClose.click(); } catch (_) {}
@@ -158,6 +172,7 @@ function triggerV1Skip() {
 }
 
 function triggerV2Glitch() {
+    if (!isEnabled) return;
     const uri = 'glitchskip://trigger';
     // Append into the player container, not document.body, to avoid body-level observers
     const container = document.querySelector('#movie_player') || document.body;
@@ -170,6 +185,7 @@ function triggerV2Glitch() {
 }
 
 async function executeSkip() {
+    if (!isEnabled) return;
     // Random human-like delay before acting (80 – 520 ms), different every time
     await _delay(80, 520);
     const mode = getEffectiveSkipMode();
@@ -183,6 +199,7 @@ async function executeSkip() {
 // ── Button injection ──────────────────────────────────────────────────────
 
 function createStealthButton() {
+    if (!isEnabled) return null;
     // Check if we already injected one this page load using our unique data attr
     if (document.querySelector('[' + BTN_DATA_ATTR + ']')) return null;
 
@@ -194,6 +211,7 @@ function createStealthButton() {
     btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
+        if (!isEnabled) return;
         btn.innerText = 'SKIPPING…';
         btn.disabled = true;
         executeSkip().finally(() => {
@@ -205,6 +223,13 @@ function createStealthButton() {
     });
 
     return btn;
+}
+
+function removeStealthButton() {
+    const btn = document.querySelector('[' + BTN_DATA_ATTR + ']');
+    if (btn) {
+        try { btn.remove(); } catch (_) {}
+    }
 }
 
 // ── Ad detection ──────────────────────────────────────────────────────────
@@ -223,6 +248,11 @@ const observer = new MutationObserver(() => {
 function processAdState() {
     _observerTick = null;
     checkUrlChange();
+
+    if (!isEnabled) {
+        removeStealthButton();
+        return;
+    }
 
     const player = document.querySelector('#movie_player');
     if (!player) return;

@@ -8,7 +8,16 @@
 <body>
   <div class="container">
     <h1 class="title">GLITCH AD SKIPPER</h1>
-    <div class="mode-selector">
+
+    <div class="toggle-container">
+      <span class="toggle-label">Enable Ad Skipper</span>
+      <label class="switch">
+        <input type="checkbox" id="extension-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="mode-selector" id="mode-selector">
       <label class="radio-label">
         <input type="radio" name="skipMode" value="auto" checked>
         <span class="custom-radio"></span>
