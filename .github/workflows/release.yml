@@ -1,0 +1,31 @@
+name: Release Zip Packages
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create Zip Packages
+        run: |
+          mkdir -p dist
+          zip -r "dist/Glitch-Ad-Skipper.zip" "Glitch Ad Skipper" -x "*.git*"
+          zip -r "dist/PixivFanbox-Downloader.zip" "PixivFanbox Downloader" -x "*.git*"
+          zip -r "dist/Translate-Web.zip" "Translate Web" -x "*.git*"
+          cd "VLC Extensions" && zip -r "../dist/VLC-Extensions.zip" extension windows -x "*.git*" && cd ..
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
