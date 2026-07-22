@@ -1,5 +1,8 @@
 # Chrome Extensions Suite & Utilities
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Manifest V3](https://img.shields.io/badge/Chrome-Manifest%20V3-green.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+
 A collection of custom Chrome Extensions (Manifest V3) and companion desktop utilities designed to enhance YouTube playback, media downloading, web translation, and video streaming.
 
 ---
@@ -17,16 +20,16 @@ A collection of custom Chrome Extensions (Manifest V3) and companion desktop uti
 
 ## 🛠️ General Installation (Chrome Extensions)
 
-All extensions in this repository are built with **Manifest V3**.
+All extensions in this repository are built for **Chrome Manifest V3**.
 
-1. Clone or download this repository:
+1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
+   git clone https://github.com/takoyune/Chrome-Extensions.git
    ```
-2. Open Google Chrome and go to `chrome://extensions/`.
+2. Open Google Chrome and navigate to `chrome://extensions/`.
 3. Enable **Developer mode** using the toggle switch in the top-right corner.
 4. Click **Load unpacked**.
-5. Select the specific extension folder (or `extension/` subfolder for VLC Extensions).
+5. Select the target project folder (or `extension/` subfolder for VLC Extensions).
 
 ---
 
@@ -52,4 +55,4 @@ All extensions in this repository are built with **Manifest V3**.
 
 ## 📄 License
 
-This repository is maintained for personal use and custom browser extensions. Feel free to adapt and modify the scripts for your own setups.
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
