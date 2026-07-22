@@ -1,0 +1,31 @@
+name: Package Extensions
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create Zip Packages
+        run: |
+          mkdir -p dist
+          zip -r "dist/Glitch-Ad-Skipper.zip" "Glitch Ad Skipper" -x "*.git*"
+          zip -r "dist/PixivFanbox-Downloader.zip" "PixivFanbox Downloader" -x "*.git*"
+          zip -r "dist/Translate-Web.zip" "Translate Web" -x "*.git*"
+          cd "VLC Extensions" && zip -r "../dist/VLC-Extension.zip" extension windows -x "*.git*" && cd ..
+          echo "Created zip packages in dist/ directory:"
+          ls -lh dist/
+
+      - name: Upload Extension Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrome-extensions-packages
+          path: dist/*.zip
+          retention-days: 90

@@ -1,0 +1,37 @@
+name: Validate & Lint Extensions
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate Manifest.json Files
+        run: |
+          echo "Checking JSON validity of all manifest.json files..."
+          find . -name "manifest.json" -not -path "*/.*" -exec jsonlint {} + || find . -name "manifest.json" -not -path "*/.*" -exec node -e "JSON.parse(require('fs').readFileSync(process.argv[1]))" {} \;
+          echo "All manifest.json files are valid JSON."
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check Python Code Syntax
+        run: |
+          echo "Checking Python files for syntax errors..."
+          python -m py_compile "PixivFanbox Downloader/duplicate_viewer.py"
+          echo "Python files compiled cleanly."

@@ -2,11 +2,22 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Manifest V3](https://img.shields.io/badge/Chrome-Manifest%20V3-green.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+[![Package Extensions](https://github.com/takoyune/Chrome-Extensions/actions/workflows/package.yml/badge.svg)](https://github.com/takoyune/Chrome-Extensions/actions)
 [![Status](https://img.shields.io/badge/Status-Active%20%26%20Growing-brightgreen.svg)](#)
 
 A growing monorepo collection of custom Chrome Extensions (Manifest V3) and companion desktop utilities designed for media automation, ad skipping, translation, productivity, and video streaming.
 
 > 📌 **Note:** New extensions and small utility tools will be continuously added to this repository as they are developed.
+
+---
+
+## ⚡ Automated Builds & Downloads
+
+Every time code is pushed to this repository, **GitHub Actions** automatically:
+1. **Validates & Lints** all `manifest.json`, JavaScript, and Python scripts.
+2. **Packages each Extension into a ready-to-use `.zip` file**.
+
+📥 You can download the latest pre-packaged extension `.zip` files from the [GitHub Actions Artifacts](https://github.com/takoyune/Chrome-Extensions/actions).
 
 ---
 
@@ -25,14 +36,21 @@ A growing monorepo collection of custom Chrome Extensions (Manifest V3) and comp
 
 All extensions in this repository are built for **Chrome Manifest V3**.
 
+### Option A: From Pre-packaged Zip (Recommended)
+1. Download the latest `chrome-extensions-packages.zip` from [GitHub Actions Releases/Artifacts](https://github.com/takoyune/Chrome-Extensions/actions).
+2. Extract the `.zip` file for the extension you want to use.
+3. Open Chrome and go to `chrome://extensions/`.
+4. Enable **Developer mode** in the top right corner.
+5. Click **Load unpacked** and select the unzipped folder.
+
+### Option B: From Source Code
 1. Clone this repository:
    ```bash
    git clone https://github.com/takoyune/Chrome-Extensions.git
    ```
 2. Open Google Chrome and navigate to `chrome://extensions/`.
 3. Enable **Developer mode** using the toggle switch in the top-right corner.
-4. Click **Load unpacked**.
-5. Select any project folder (or `extension/` subfolder when applicable).
+4. Click **Load unpacked** and select the desired project folder.
 
 ---
 
