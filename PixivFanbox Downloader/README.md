@@ -1,4 +1,4 @@
-# Fanbox Image Downloader & Duplicate Viewer
+# PixivFanbox Downloader & Duplicate Viewer
 
 A browser extension and Python utility combo for downloading full-resolution images from Pixiv Fanbox posts and managing image duplicates.
 
@@ -21,7 +21,7 @@ A browser extension and Python utility combo for downloading full-resolution ima
 1. Open Chrome and navigate to `chrome://extensions/`.
 2. Enable **Developer mode** in the top right corner.
 3. Click **Load unpacked**.
-4. Select the `Photo Downloader` folder.
+4. Select the `PixivFanbox Downloader` folder.
 
 ## How to Use
 

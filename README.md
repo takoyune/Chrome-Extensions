@@ -15,7 +15,7 @@ A growing monorepo collection of custom Chrome Extensions (Manifest V3) and comp
 | Project Name | Type | Description | Link |
 | :--- | :--- | :--- | :--- |
 | **Glitch Ad Skipper** | Chrome Extension + Windows Helper | YouTube ad skipper using injected player controls and custom protocol triggers. | [View Project](./Glitch%20Ad%20Skipper/) |
-| **Photo Downloader** | Chrome Extension + Python Tool | One-click Pixiv Fanbox full-resolution image downloader with a Python duplicate viewer app. | [View Project](./Photo%20Downloader/) |
+| **PixivFanbox Downloader** | Chrome Extension + Python Tool | One-click Pixiv Fanbox full-resolution image downloader with a Python duplicate viewer app. | [View Project](./PixivFanbox%20Downloader/) |
 | **Translate Web** | Chrome Extension | Multilingual webpage and text selection translator powered by Google Translation API. | [View Project](./Translate%20Web/) |
 | **VLC Extensions** | Chrome Extension + Windows Helper | Open current YouTube videos in desktop VLC Media Player at exact timestamps using `yt-dlp`. | [View Project](./VLC%20Extensions/) |
 
@@ -42,7 +42,7 @@ All extensions in this repository are built for **Chrome Manifest V3**.
 - Injects a "Glitch Skip" button directly into the YouTube HTML5 player.
 - Instantly skips video ads using protocol handler triggers and player manipulation.
 
-### 🖼️ [Photo Downloader](./Photo%20Downloader/)
+### 🖼️ [PixivFanbox Downloader](./PixivFanbox%20Downloader/)
 - Scrapes original high-resolution images from Pixiv Fanbox posts (`*.fanbox.cc`).
 - Includes `duplicate_viewer.py` to inspect and clean up duplicate image files locally.
 
