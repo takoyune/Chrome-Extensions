@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Glitch Ad Skipper Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">GLITCH AD SKIPPER</h1>
+    <div class="mode-selector">
+      <label class="radio-label">
+        <input type="radio" name="skipMode" value="auto" checked>
+        <span class="custom-radio"></span>
+        <span class="label-text">Auto Smart Mode</span>
+      </label>
+      <div class="description">Videos: Always V2. Streams: 1st ad V2, 2nd+ ad V1.</div>
+
+      <label class="radio-label">
+        <input type="radio" name="skipMode" value="v1">
+        <span class="custom-radio"></span>
+        <span class="label-text">V1: Fast-forward</span>
+      </label>
+      <div class="description">Silently fast-forwards ad video.</div>
+
+      <label class="radio-label">
+        <input type="radio" name="skipMode" value="v2">
+        <span class="custom-radio"></span>
+        <span class="label-text">V2: Glitch Protocol</span>
+      </label>
+      <div class="description">Uses custom glitchskip:// trigger.</div>
+    </div>
+    <div id="save-status" class="status-msg">Saved automatically</div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

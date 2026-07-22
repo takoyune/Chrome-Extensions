@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+  margin: 0;
+  padding: 16px;
+  background-color: #171717;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  width: 250px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #FFFFFF;
+  text-shadow: 0 0 5px #D4AF37, 0 0 10px #D4AF37;
+}
+
+.mode-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.radio-label:hover {
+  text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+}
+
+.radio-label input[type="radio"] {
+  display: none;
+}
+
+.custom-radio {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #404040;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.radio-label input[type="radio"]:checked + .custom-radio {
+  border-color: #D4AF37;
+  box-shadow: 0 0 8px #D4AF37;
+}
+
+.radio-label input[type="radio"]:checked + .custom-radio::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background-color: #D4AF37;
+  border-radius: 50%;
+}
+
+.label-text {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 12px;
+  color: #A0A0A0;
+  margin-left: 26px;
+  margin-bottom: 8px;
+}
+
+.status-msg {
+  font-size: 12px;
+  color: #D4AF37;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  margin-top: 4px;
+}
+
+.status-msg.show {
+  opacity: 1;
+}

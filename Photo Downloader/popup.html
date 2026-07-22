@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fanbox Downloader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* ─── Tokens ──────────────────────────────────────────────── */
+    :root {
+      --accent:       #e8386d;
+      --accent-hover: #d42d60;
+      --accent-glow:  rgba(232, 56, 109, 0.18);
+      --radius:       10px;
+      --speed:        180ms;
+
+      --bg:           #fafafa;
+      --surface:      #ffffff;
+      --border:       #e8e8ec;
+      --text:         #111116;
+      --text-muted:   #6b6b7b;
+      --item-bg:      #f2f2f5;
+      --scroll-thumb: #c8c8d0;
+      --scroll-track: #e8e8ec;
+
+      /* Toggle */
+      --tog-bg:       #e8e8ec;
+      --tog-active:   var(--accent);
+      --tog-text:     #6b6b7b;
+      --tog-text-on:  #fff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:           #111116;
+        --surface:      #1c1c23;
+        --border:       #2a2a35;
+        --text:         #f0f0f5;
+        --text-muted:   #888899;
+        --item-bg:      #17171f;
+        --scroll-thumb: #3a3a48;
+        --scroll-track: #1c1c23;
+        --tog-bg:       #2a2a35;
+        --tog-text:     #888899;
+      }
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      width: 320px;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(6px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .popup-root {
+      animation: fadeUp 200ms ease forwards;
+      padding: 16px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ─── Header ──────────────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-wrap {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: var(--accent);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .logo-wrap svg { width:17px; height:17px; color:#fff; }
+
+    .header-text { display:flex; flex-direction:column; gap:1px; }
+
+    .header-title {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-size: 13.5px; font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.2px; line-height: 1.2;
+    }
+    .header-sub { font-size: 10.5px; color: var(--text-muted); }
+
+    .divider { height:1px; background:var(--border); }
+
+    /* ─── Quality Toggle ──────────────────────────────────────── */
+    .quality-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .quality-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .quality-label svg { width:13px; height:13px; }
+
+    .toggle-group {
+      display: flex;
+      background: var(--tog-bg);
+      border-radius: 7px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .toggle-btn {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--tog-text);
+      transition: background var(--speed) ease, color var(--speed) ease;
+      letter-spacing: 0.1px;
+      white-space: nowrap;
+    }
+
+    .toggle-btn.active {
+      background: var(--tog-active);
+      color: var(--tog-text-on);
+    }
+
+    .toggle-btn:not(.active):hover {
+      color: var(--text);
+    }
+
+    /* ─── Status Row ──────────────────────────────────────────── */
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 20px;
+    }
+
+    .status-dot {
+      width:7px; height:7px;
+      border-radius:50%;
+      background: var(--text-muted);
+      flex-shrink:0;
+      transition: background var(--speed) ease;
+    }
+    .status-dot.scanning { background:#f59e0b; animation:pulse-dot 1s ease infinite; }
+    .status-dot.success  { background:#22c55e; }
+    .status-dot.error    { background:#ef4444; }
+    .status-dot.warning  { background:#f59e0b; }
+
+    @keyframes pulse-dot {
+      0%,100% { opacity:1; } 50% { opacity:0.35; }
+    }
+
+    #status {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      flex: 1;
+      transition: color var(--speed) ease;
+    }
+    #status.success { color:#22c55e; }
+    #status.error   { color:#ef4444; }
+    #status.warning { color:#f59e0b; }
+
+    .count-chip {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-size: 11px; font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-glow);
+      border: 1px solid rgba(232,56,109,0.25);
+      border-radius: 20px;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+
+    /* ─── Image List ──────────────────────────────────────────── */
+    .image-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      max-height: 128px;
+      overflow-y: auto;
+      padding-right: 2px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+    }
+    .image-list::-webkit-scrollbar       { width:4px; }
+    .image-list::-webkit-scrollbar-track { background:var(--scroll-track); border-radius:4px; }
+    .image-list::-webkit-scrollbar-thumb { background:var(--scroll-thumb); border-radius:4px; }
+
+    .image-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--item-bg);
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 10.5px;
+      color: var(--text-muted);
+      word-break: break-all;
+      line-height: 1.3;
+      transition: background var(--speed) ease;
+      animation: fadeUp 200ms ease forwards;
+      animation-fill-mode: both;
+    }
+    .image-item:hover { background:var(--border); }
+    .image-item svg   { width:12px; height:12px; flex-shrink:0; color:var(--accent); opacity:0.8; }
+
+    /* ─── Quality Note ────────────────────────────────────────── */
+    .quality-note {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      color: var(--text-muted);
+      opacity: 0.75;
+      padding: 0 1px;
+    }
+    .quality-note svg { width:11px; height:11px; flex-shrink:0; }
+    .quality-note.full    { color: #22c55e; opacity: 1; }
+    .quality-note.preview { color: #f59e0b; opacity: 1; }
+
+    /* ─── Button ──────────────────────────────────────────────── */
+    .btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 11px 20px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.1px;
+      cursor: pointer;
+      transition: background var(--speed) ease, box-shadow var(--speed) ease, opacity var(--speed) ease;
+    }
+    .btn:hover:not(:disabled) {
+      background: var(--accent-hover);
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .btn:active:not(:disabled) { box-shadow:none; opacity:0.9; }
+    .btn:disabled {
+      background: var(--border);
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+    .btn svg { width:15px; height:15px; }
+
+    /* ─── Ad Banner ───────────────────────────────────────────── */
+    .ad-banner {
+      width: 100%;
+      height: 50px;
+      background: var(--item-bg);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: border-color var(--speed) ease;
+    }
+    .ad-banner:hover {
+      border-color: var(--accent);
+    }
+    .ad-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      font-size: 8px;
+      padding: 2px 4px;
+      border-bottom-left-radius: 4px;
+      z-index: 2;
+    }
+    .ad-content {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ad-content img {
+      height: 30px;
+      border-radius: 4px;
+    }
+
+    .footer {
+      display:flex; justify-content:center;
+      font-size:10px; color:var(--text-muted); opacity:0.55;
+      margin-top: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .popup-root,.image-item { animation:none; }
+      .status-dot { animation:none; }
+      .spinner { animation:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="popup-root">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-wrap" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+        </svg>
+      </div>
+      <div class="header-text">
+        <h1 class="header-title">Fanbox Downloader</h1>
+        <p class="header-sub">Pixiv Fanbox · Image Saver</p>
+      </div>
+    </header>
+
+    <div class="divider" role="separator"></div>
+
+    <!-- Quality Toggle -->
+    <div class="quality-row">
+      <span class="quality-label">
+        <!-- Heroicons: adjustments-horizontal -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke-width="2" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/>
+        </svg>
+        Quality
+      </span>
+      <div class="toggle-group" role="group" aria-label="Download quality">
+        <button class="toggle-btn active" id="btnFull"    aria-pressed="true">Full Res</button>
+        <button class="toggle-btn"        id="btnPreview" aria-pressed="false">Preview</button>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="status-row" role="status" aria-live="polite">
+      <span class="status-dot scanning" id="statusDot" aria-hidden="true"></span>
+      <span id="status">Scanning page for images…</span>
+    </div>
+
+    <!-- Image list -->
+    <div id="image-preview" class="image-list" style="display:none;"
+         role="list" aria-label="Found images"></div>
+
+    <!-- Quality hint -->
+    <p class="quality-note full" id="qualityNote" style="display:none;">
+      <!-- Heroicons: star -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+           stroke-width="2" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 0-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+      </svg>
+      <span id="qualityNoteText">Original files · Best quality</span>
+    </p>
+
+    <!-- Download button -->
+    <button class="btn" id="downloadBtn" disabled aria-label="Download all images">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+           stroke-width="2" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+      </svg>
+      Download All
+    </button>
+
+    <!-- Small Ad Banner -->
+    <a href="https://example.com/your-affiliate-link" target="_blank" class="ad-banner" aria-label="Advertisement">
+      <span class="ad-badge">AD</span>
+      <div class="ad-content">
+        <!-- You can replace this text with an <img> tag for a banner -->
+        <span>✨ Support us by checking out this tool!</span>
+      </div>
+    </a>
+    
+    <!-- Alternatively, if you host ads on your website, you can use an iframe like this: -->
+    <!-- <iframe src="https://yourwebsite.com/ad-page.html" width="100%" height="50" style="border:none; border-radius: 10px; overflow: hidden;"></iframe> -->
+
+    <p class="footer">fanbox.cc · downloads.fanbox.cc</p>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

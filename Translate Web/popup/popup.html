@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translate Web</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header>
+      <div class="brand">
+        <span class="brand-icon">🌐</span>
+        <span class="brand-name">Translate Web</span>
+      </div>
+      <button id="openSettings" class="icon-link" title="Settings">⚙</button>
+    </header>
+
+    <div id="textMode">
+      <div class="lang-row">
+        <select id="sourceLangSelect">
+          <option value="auto">Auto Detect</option>
+        </select>
+        <button id="swapLangs" class="swap-btn" title="Swap languages">⇄</button>
+        <select id="targetLangSelect"></select>
+      </div>
+
+      <div class="input-area">
+        <textarea
+          id="inputText"
+          placeholder="Type or paste text to translate…"
+          rows="4"
+          maxlength="5000"
+        ></textarea>
+        <div class="char-count"><span id="charCount">0</span>/5000</div>
+      </div>
+
+      <button id="translateBtn" class="translate-btn">
+        <span id="btnLabel">Translate</span>
+        <div id="btnSpinner" class="spinner hidden"></div>
+      </button>
+
+      <div id="resultArea" class="result-area hidden">
+        <div class="result-header">
+          <span id="detectedLang" class="detected-badge"></span>
+          <button id="copyResult" class="copy-btn">📋 Copy</button>
+        </div>
+        <div id="resultText" class="result-text"></div>
+      </div>
+
+      <div id="errorArea" class="error-area hidden"></div>
+    </div>
+
+    <div id="pageMode" class="hidden">
+      <div class="page-mode-card">
+        <h3 class="page-title">Translate Webpage</h3>
+        <p class="page-desc">Translate all text on this page into your preferred language.</p>
+        
+        <div class="field">
+          <label for="pageTargetLang">Translate To</label>
+          <select id="pageTargetLang"></select>
+        </div>
+
+        <button id="translatePageBtn" class="translate-btn">
+          <span id="pageBtnLabel">Translate Page</span>
+          <div id="pageBtnSpinner" class="spinner hidden"></div>
+        </button>
+      </div>
+    </div>
+
+    <footer>
+      <span class="powered">Powered by Google Translate</span>
+      <a id="setupLink" class="setup-link hidden" href="#">Set up API key →</a>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translate Web — Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">🌐</div>
+      <h1>Translate Web Settings</h1>
+      <p class="subtitle">Configure your translation experience</p>
+    </header>
+
+    <section class="card">
+      <h2>🔑 Translation API</h2>
+      <div class="field">
+        <label for="provider">Service Provider</label>
+        <select id="provider">
+          <option value="google">Google Translate API</option>
+          <option value="deepl">DeepL API (Free/Pro)</option>
+          <option value="openai">OpenAI (ChatGPT)</option>
+          <option value="libre">LibreTranslate</option>
+        </select>
+      </div>
+
+      <!-- Dynamic Help Texts -->
+      <div id="help-google" class="help-text">
+        Get a free API key from 
+        <a href="https://console.cloud.google.com/apis/library/translate.googleapis.com" target="_blank">Google Cloud Console</a>.
+        Free tier: <strong>500,000 chars/month</strong>.
+      </div>
+      <div id="help-deepl" class="help-text hidden">
+        Get a free API key from <a href="https://www.deepl.com/pro-api" target="_blank">DeepL API</a>. Free tier: <strong>500,000 chars/month</strong>.
+      </div>
+      <div id="help-openai" class="help-text hidden">
+        Get an API key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI</a>. Uses <code>gpt-4o-mini</code>. Requires paid credits.
+      </div>
+      <div id="help-libre" class="help-text hidden">
+        Enter your own instance URL or use a <a href="https://github.com/LibreTranslate/LibreTranslate#mirrors" target="_blank">public mirror</a>. API key may be optional.
+      </div>
+
+      <!-- LibreTranslate URL -->
+      <div class="field hidden" id="libreUrlField">
+        <label for="libreUrl">Instance URL</label>
+        <input type="text" id="libreUrl" placeholder="https://translate.argosopentech.com" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label for="apiKey" id="apiKeyLabel">API Key</label>
+        <div class="input-row">
+          <input type="password" id="apiKey" placeholder="Enter API key..." autocomplete="off">
+          <button id="toggleApiKey" class="icon-btn" title="Show/Hide">👁</button>
+        </div>
+      </div>
+      <button id="testApi" class="btn-secondary">Test Connection</button>
+      <span id="testResult" class="test-result"></span>
+    </section>
+
+    <section class="card">
+      <h2>🌍 Language Settings</h2>
+      <div class="field-row">
+        <div class="field">
+          <label for="targetLang">Translate To</label>
+          <select id="targetLang"></select>
+        </div>
+        <div class="field">
+          <label for="sourceLang">From (Source)</label>
+          <select id="sourceLang"></select>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>⌨️ Hotkey</h2>
+      <div class="field">
+        <label for="hotkey">Translate selected text with</label>
+        <select id="hotkey">
+          <option value="Alt+T">Alt + T</option>
+          <option value="Alt+Shift+T">Alt + Shift + T</option>
+          <option value="Ctrl+Shift+T">Ctrl + Shift + T</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>🎨 Display Settings</h2>
+      <div class="field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="showOriginal" checked>
+          Show original text in popup
+        </label>
+      </div>
+      <div class="field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="autoDetect" checked>
+          Auto-detect source language
+        </label>
+      </div>
+      <div class="field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="copyOnClick">
+          Copy translation on click
+        </label>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button id="saveBtn" class="btn-primary">Save Settings</button>
+      <span id="saveStatus" class="save-status"></span>
+    </div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

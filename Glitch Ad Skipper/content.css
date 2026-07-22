@@ -1,0 +1,42 @@
+.glitch-skip-btn {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  z-index: 2147483647;
+  background: rgba(255, 30, 30, 0.9);
+  color: white;
+  border: 2px solid white;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  display: none;
+  font-family: 'Roboto', 'Arial', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  box-shadow: 0 4px 15px rgba(255,0,0,0.6);
+  animation: gs-pulse 1.5s infinite alternate;
+  transition: all 0.2s ease;
+}
+
+.glitch-skip-btn:hover {
+  background: rgba(255, 0, 0, 1);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255,0,0,0.9);
+}
+
+.glitch-skip-btn:active {
+  transform: scale(0.95);
+}
+
+/* Renamed keyframe from 'glitch-pulse' → random short name */
+@keyframes gs-pulse {
+  from { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
+  to   { box-shadow: 0 0 25px rgba(255, 0, 0, 1);   }
+}
+
+.ad-showing .glitch-skip-btn {
+  display: block;
+}

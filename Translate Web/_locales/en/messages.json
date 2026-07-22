@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Translate Web",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "A beautiful, powerful page and text translator powered by Google Translate.",
+    "description": "Extension description"
+  }
+}
